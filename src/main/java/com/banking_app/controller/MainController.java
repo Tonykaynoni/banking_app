@@ -10,5 +10,11 @@ public class MainController {
 	public String homePage() {
  		return "login.html";
  	} 
+	
+	@RequestMapping(value="/register")
+	public String regPage() {
+ 		return "register.html";
+ 	} 
+
 
 }

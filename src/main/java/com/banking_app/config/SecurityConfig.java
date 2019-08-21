@@ -35,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     
 
-    @Autowired
-    private LoggingAccessDeniedHandler accessDeniedHandler;
     
     @Override
     @Bean

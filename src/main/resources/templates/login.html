@@ -8,32 +8,31 @@
   </head>
 
   <body>
-    <div class="container col-md-12 d-flex addQuestion">
-		   <h1>Login page</h1>
-		   <p th:if="${loginError}" class="error">Wrong user or password</p>
-			    <form action="" method="post" class="col-md-6" id="login" >
-			          <div class="form-group">
-					      <label for="username">Username</label>:
-					      <input type="text" class="form-control" id="username" name="username" autofocus="autofocus" /> <br />
-				      </div>
-				      <div class="form-group">
-						    <label for="password">Password</label>:
-						    <input class="form-control" type="password" id="password" name="password" /> <br />
-						     <input class="form-control" type="hidden" id="grant_type" name="grant_type" value="password"/>
-				      </div>
-				      <div class="form-group">
-				      <input type="submit" class="btn btn-primary form-control" value="Log in" />
-				      </div>
-			    </form>
-	</div>    
+   
+		    <div class="container">
+		        <div class="col-offset-6 centered">
+		         <b><a href="register">Register Here</a></b>
+				   <h1>Login page</h1>
+				   <p th:if="${loginError}" class="error">Wrong user or password</p>
+					    <form action="" method="post" class="" id="login" >
+					          <div class="form-group">
+							      <label for="username">Username</label>:
+							      <input type="text" class="form-control" id="username" name="username" autofocus="autofocus" /> <br />
+						      </div>
+						      <div class="form-group">
+								    <label for="password">Password</label>:
+								    <input class="form-control" type="password" id="password" name="password" /> <br />
+								     <input class="form-control" type="hidden" id="grant_type" name="grant_type" value="password"/>
+						     
+ 						      <input type="submit" class="btn btn-primary form-control" value="Log in" />
+						      </div>
+						</form>
+					   
+		   </div>			    
+			</div>   
+
 	<script type="text/javascript">
 	
-	function make_base_auth(user, password) {
-		  var tok = user + ':' + password;
-		  var hash = btoa(tok);
-		  return "Basic " + hash;
-		}
-
     jQuery(document).ready(function(){
             jQuery("#login").submit(function(e){
                     e.preventDefault();
@@ -64,7 +63,8 @@
                                console.log(json);
                             //   alert("Login Success");
                                var token = json.access_token
-                               window.location = '/users/user?access_token='+token;
+                               var ref = json.refresh_token
+                               window.location = '/process_login/'+token+'/'+ref+'?access_token='+token;
                              //  alert(json.access_token);
                             //document.getElementById("submit_disease").reset();
 

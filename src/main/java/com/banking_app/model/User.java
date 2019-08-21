@@ -12,51 +12,93 @@ public class User {
     private long id;
     @Column
     private String username;
+    
     @Column
     @JsonIgnore
     private String password;
+    
     @Column
-    private long salary;
+    private String fullname;
+    
     @Column
-    private int age;
+    private String dob;
+    
+    @Column
+    private String account_type;
+    
+    @Column
+    private String address;
+    
+    @Column
+    private int account_balance;
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public long getSalary() {
-        return salary;
-    }
+	public String getFullname() {
+		return fullname;
+	}
 
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+
+	public String getAccount_type() {
+		return account_type;
+	}
+
+	public void setAccount_type(String account_type) {
+		this.account_type = account_type;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getAccount_balance() {
+		return account_balance;
+	}
+
+	public void setAccount_balance(int account_balance) {
+		this.account_balance = account_balance;
+	}
+    
+
+  
 }
