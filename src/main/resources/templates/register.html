@@ -14,7 +14,7 @@
 		           <b><a href="/login">Login</a></b>
 				   <h1>Register New Account Here</h1>
 				  
-					    <form action="/register" method="post" class="" id="register" >
+					    <form action="/register" method="post" th:object="${user}" class="" id="register" >
 					    
 					        
 						      
@@ -25,13 +25,17 @@
 						      
 						      <div class="form-group">
 							      <label for="dob">Date Of Birth</label>:
-							      <input type="text" class="form-control" id="dob" name="dob" autofocus="autofocus" /> <br />
+							      <input type="text" class="form-control" id="dob" name="dob" autofocus="autofocus" required/> <br />
 						      </div>
 						      
 						      
 					          <div class="form-group">
 							      <label for="account_type">Account_type</label>:
-							      <input type="text" class="form-control" id="account_type" name=account_type autofocus="autofocus" /> <br />
+							        <select class="form-control" th:field="*{account_type}">
+						               <option  th:each="info : ${accounts}" th:value="${info.account_name}" th:text="${info.account_name}"></option>
+						          </select>
+			
+
 						      </div>
 						       <div class="form-group">
 							      <label for="account_balance">Account_balance</label>:
@@ -41,19 +45,26 @@
 						      <div class="form-group">
 								    <label for="password">Address</label>:
 								    <input class="form-control" type="text" id="address" name="address" /> <br />
-								     <input class="form-control" type="hidden" id="grant_type" name="grant_type" value="password"/>
+								     <input class="form-control" type="hidden" id="grant_type" name="grant_type" value="password" />
 						         </div>
  						      
 						  
 						      
 						       <div class="form-group">
-							      <label for="username">Username</label>:
-							      <input type="text" class="form-control" id="username" name="username" autofocus="autofocus" /> <br />
-						      </div>
+								      <label for="username">Username</label>:
+								      <input type="text" class="form-control" th:field="*{username}" autofocus="autofocus" /> <br />
+								      <div class="has-error">	       
+						    	          <b style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</b>
+					     	         </div>
+				     	        </div>
 						      
 						      <div class="form-group">
 							      <label for="username">Password</label>:
-							      <input type="password" class="form-control" id="password" name="password" autofocus="autofocus" /> <br />
+							      <input type="password" class="form-control"  th:field="*{password}" id="password" name="password" autofocus="autofocus" /> <br />
+							      
+							      <div class="has-error">	       
+						    	          <b style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</b>
+					     	      </div>
 						      </div>
 						      
 						      <input type="submit" class="btn btn-primary form-control" value="Register" />

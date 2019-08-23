@@ -3,6 +3,8 @@ package com.banking_app.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 
 @Entity
 public class User {
@@ -10,11 +12,14 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
+    
+    @NotEmpty(message = "Username may not be empty")
     @Column
     private String username;
     
     @Column
     @JsonIgnore
+    @NotEmpty(message = "Password is required")
     private String password;
     
     @Column

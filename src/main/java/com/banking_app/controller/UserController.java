@@ -30,10 +30,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-   @Autowired
-   private HttpSession session;
+ 
     
-    @RequestMapping(value="/user", method = RequestMethod.GET)
+    @RequestMapping(value="/userpage", method = RequestMethod.GET)
     public List<User> listUser(){
         return userService.findAll();
     }
@@ -41,7 +40,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView create(@Valid User user,BindingResult result, ModelMap model,RedirectAttributes redirectAttributes){
     	if (result.hasErrors()) {
-    		 return new ModelAndView("redirect:/register?reg=failed");
+    		 return new ModelAndView("register");
 		} 
     	
     	user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -57,22 +56,7 @@ public class UserController {
         return "success";
     }
     
-    
-    @RequestMapping(value = "/process_login/{access_token}/{refresh_token}", method = RequestMethod.GET)
-    public ModelAndView register(@PathVariable Map<String,String> pathValues){
-        String access_token = pathValues.get("access_token");
-        String refresh_token = pathValues.get("refresh_token");
-        
-        
-        //System.out.println(access_token);
-        //System.out.println(refresh_token);
-    	//userService.delete(id);
-        session.setAttribute("session_access_tok", access_token);
-        session.setAttribute("session_refresh_tok", refresh_token);
-        
-        
-        return new ModelAndView("redirect:/user?access_token="+access_token);
-    }
+   
     
     
    

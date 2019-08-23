@@ -23,7 +23,11 @@ public class Account_type {
 	 
 	 
    
-	 public Account_type(String account_name, Long max_bal, Long min_bal, Long interest_rate) {
+	 public Account_type() {
+		super();
+	}
+
+	public Account_type(String account_name, Long max_bal, Long min_bal, Long interest_rate) {
 		super();
 		this.account_name = account_name;
 		this.max_bal = max_bal;
