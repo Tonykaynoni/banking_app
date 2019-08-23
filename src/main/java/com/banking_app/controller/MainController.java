@@ -49,7 +49,7 @@ public class MainController {
     	//userService.delete(id);
         session.setAttribute("session_access_details", info);
         
-        //String a =(String) session.getAttribute("session_access_tok");
+        String a =(String) session.getAttribute("session_access_tok");
         
         
         return ("redirect:/userpage?access_token="+info.getAccessToken());
