@@ -23,10 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.    
                
                 authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/reg_user").permitAll()
-                .antMatchers("/fonts", "/static", "/js/**", "/css/**").permitAll()
+                .antMatchers("/login","/register","/reg_user","/").permitAll()
                 .anyRequest().authenticated().and().httpBasic()         
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()); 
 	}

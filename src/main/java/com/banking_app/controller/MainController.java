@@ -26,7 +26,7 @@ public class MainController {
 	private HttpSession session;
 	  
 	@RequestMapping(value="/login")
-	public String homePage() {
+	public String userLoginPage() {
  		return "login";
  	} 
 	
@@ -37,6 +37,10 @@ public class MainController {
  		return "register.html";
  	}
 	
+	@RequestMapping(value="/")
+	public String homePage() {		 
+ 		return "index";
+ 	}
 	 
     @RequestMapping(value = "/process_login/{access_token}/{refresh_token}")
     public String register(@PathVariable Map<String,String> pathValues) throws Exception{
