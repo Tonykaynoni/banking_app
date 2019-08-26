@@ -37,9 +37,6 @@ public class AccountServiceImpl implements AccountService {
 		acctDao.deleteById(id);	
 	}
 	
-	private List<SimpleGrantedAuthority> getAuthority() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-	}
 	@Override
     public Account_type save(Account_type acct) {
         return acctDao.save(acct);

@@ -2,10 +2,15 @@ package com.banking_app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Set;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-
+@Table(name = "user", uniqueConstraints = {
+		   @UniqueConstraint(columnNames = {"username"})
+		})
 @Entity
 public class User {
 
@@ -14,27 +19,31 @@ public class User {
     private long id;
     
     @NotEmpty(message = "Username may not be empty")
-    @Column
+	@NotNull
     private String username;
     
-    @Column
+    @NotNull
     @JsonIgnore
     @NotEmpty(message = "Password is required")
     private String password;
     
-    @Column
+    @NotNull
+    @NotEmpty(message = "Fullname may not be empty")
     private String fullname;
     
-    @Column
+    @NotNull
+    @NotEmpty
     private String dob;
     
-    @Column
+    @NotNull
+    @NotEmpty
     private String account_type;
     
-    @Column
+    @NotNull
+    @NotEmpty
     private String address;
     
-    @Column
+    
     private int account_balance;
 
 	public long getId() {
@@ -43,6 +52,41 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+	
+	private boolean isEnabled = true;
+	private boolean nonLocked = true;
+    
+	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	public boolean isNonLocked() {
+		return nonLocked;
+	}
+
+	public void setNonLocked(boolean nonLocked) {
+		this.nonLocked = nonLocked;
 	}
 
 	public String getUsername() {
@@ -103,6 +147,30 @@ public class User {
 	public void setAccount_balance(int account_balance) {
 		this.account_balance = account_balance;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	
     
 
   

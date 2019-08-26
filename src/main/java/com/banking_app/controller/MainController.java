@@ -27,7 +27,7 @@ public class MainController {
 	  
 	@RequestMapping(value="/login")
 	public String homePage() {
- 		return "index";
+ 		return "login";
  	} 
 	
 	@RequestMapping(value="/register")

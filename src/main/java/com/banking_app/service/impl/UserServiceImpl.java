@@ -1,6 +1,7 @@
 package com.banking_app.service.impl;
 
 import com.banking_app.dao.UserDao;
+import com.banking_app.model.CustomUserDetails;
 import com.banking_app.model.User;
 import com.banking_app.service.UserService;
 
@@ -32,12 +33,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
+		return new CustomUserDetails(user);
 	}
 
-	private List<SimpleGrantedAuthority> getAuthority() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-	}
+//	private List<SimpleGrantedAuthority> getAuthority() {
+//		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+//	}
 
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
