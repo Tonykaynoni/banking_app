@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -26,13 +28,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	
-
+	private Long userId;
+	@Autowired
+	private HttpSession session;
+	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		User user = userDao.findByUsername(userId);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
+		
+		this.userId = user.getId();
+
+        session.setAttribute("session_user_id", user.getId());
 		return new CustomUserDetails(user);
 	}
 
@@ -55,6 +63,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User save(User user) {
         return userDao.save(user);
     }
+
+	@Override
+	public Long userId() {
+		// TODO Auto-generated method stub
+		return userId;
+	}
 	
 	
 }

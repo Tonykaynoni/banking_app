@@ -16,6 +16,7 @@ import com.banking_app.model.TokenInfo;
 import com.banking_app.model.User;
 import com.banking_app.service.AccountService;
 
+
 @Controller
 public class MainController {
 	
@@ -53,11 +54,13 @@ public class MainController {
     	//userService.delete(id);
         session.setAttribute("session_access_details", info);
         
-        String a =(String) session.getAttribute("session_access_tok");
+       // String a =(String) session.getAttribute("session_access_tok");
         
         
-        return ("redirect:/userpage?access_token="+info.getAccessToken());
+        return ("redirect:/users/credit_account?access_token="+info.getAccessToken());
     }
+    
+    
 
 
 }

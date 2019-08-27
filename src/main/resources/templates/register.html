@@ -15,17 +15,15 @@
 				   <h1>Register New Account Here</h1>
 				  
 					    <form action="/register" method="post" th:object="${user}" class="" id="register" >
-					    
 					        
-						      
-						      <div class="form-group">
+					         <div class="form-group">
 							      <label for="fullname">fullname</label>:
 							      <input type="text" class="form-control" id="fullname" name="fullname" autofocus="autofocus" /> <br />
 						      </div>
 						      
 						      <div class="form-group">
 							      <label for="dob">Date Of Birth</label>:
-							      <input type="text" class="form-control" id="dob" name="dob" autofocus="autofocus" required/> <br />
+							      <input type="date" class="form-control" id="dob" name="dob" autofocus="autofocus" required/> <br />
 						      </div>
 						      
 						      
@@ -37,11 +35,7 @@
 			
 
 						      </div>
-						       <div class="form-group">
-							      <label for="account_balance">Account_balance</label>:
-							      <input type="text" class="form-control" id="account_balance" name=account_balance autofocus="autofocus" /> <br />
-						      </div>
-						      
+						     
 						      <div class="form-group">
 								    <label for="password">Address</label>:
 								    <input class="form-control" type="text" id="address" name="address" /> <br />
