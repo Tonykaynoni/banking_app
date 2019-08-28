@@ -20,10 +20,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-        http.    
-               
+        http.             
                 authorizeRequests()
-                .antMatchers("/login","/register","/reg_user","/","/assets/*","/css/*","/img/*","/js/*").permitAll()
+                .antMatchers("/login","/register","/reg_user","/","/static/**","/assets/**","/img/**").permitAll()
                 .anyRequest().authenticated().and().httpBasic()         
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()); 
 	}
