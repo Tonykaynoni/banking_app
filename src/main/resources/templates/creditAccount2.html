@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Credit page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+            <div class="row col-lg-12">
+                        <div class="container col-lg-2 jumbotron">
+                              <ul>
+                                  <li><a href="" >Home</a></li>
+                                  <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" >Credit Account</a></li>
+                                  <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" >Withdraw</a></li>
+                                  <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" >Check Balance</a></li>
+                                  <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" >Take Loan</a></li>
+                                  <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
+                                  <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
+                                  <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" >Update Profile</a></li>
+                                  <li><a th:href="@{/login}" >Logout</a></li>
+                              </ul>
+                        </div>
+					    <div class="container col-lg-10">
+					        <div class="col-offset-6 centered">
+					       
+							   <h1>Credit Account</h1>
+							  <b>Welcome Here <span th:text="${info.getFullname()}"></span></b> : <b>Your current Account Balance is <span th:text="${info.getAccount_balance()}"></span> Naira</b>
+								    <hr />
+								    <form th:action="@{/credit_acct?access_token=}+${ses_info.getAccessToken()}" method="post" th:object="${info}" class="" id="credit_account" >
+								          <div class="form-group">
+										      <label for="amount">Enter Amount to credit</label>:
+										      <input type="number" class="form-control" id="account_balance" name="account_balance" autofocus="autofocus" required />
+										       <br />
+									      </div>
+									     
+			 						      <input type="submit" class="btn btn-primary form-control" value="Credit Account" />
+									      
+									</form>
+								   
+					        </div>			    
+					   </div> 
+			</div>  
+
+	<script type="text/javascript">
+
+	</script>
+  </body>
+</html>
