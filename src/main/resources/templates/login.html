@@ -45,17 +45,19 @@
                                 <h4 class="font-18">T-Bank (Sign In)</h4>
                               
 
-                                <form action="#">
+                                <form  action="" method="post" class="" id="login">
                                    <p th:if="${loginError}" class="error">Wrong user or password</p>
                                     <div class="form-group">
                                       
-                                        <input class="form-control" type="text" id="username" required="" placeholder="Enter your username">
+                                        <input class="form-control" type="text" id="username" name="username" required="" placeholder="Enter your username">
                                     </div>
 
                                     <div class="form-group">
                                         <a href="forget-password.html" class="text-muted float-right"><small>Forgot your password?</small></a>
                                       
-                                        <input class="form-control" type="password" required="" id="password" placeholder="Enter your password">
+                                        <input class="form-control" type="password" name="password"  required="" id="password" placeholder="Enter your password">
+                                          <input class="form-control" type="hidden" id="grant_type" name="grant_type" value="password" required/>
+						     
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -82,7 +84,16 @@
     <!-- ======================================
     ********* Page Wrapper Area End ***********
     ======================================= -->
-    	<script type="text/javascript">
+
+    <!-- Must needed plugins to the run this Template -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bundle.js"></script>
+
+    <!-- Active JS -->
+    <script src="/assets/js/default-assets/active.js"></script>
+        	<script type="text/javascript">
 	
     jQuery(document).ready(function(){
             jQuery("#login").submit(function(e){
@@ -94,16 +105,10 @@
                         data: formData,
                         dataType: "json",
                         beforeSend: function(xhr) {
-                      //   $('#add_d_spin').addClass('fa-spinner');
-                     //     document.getElementById('add_d').innerHTML = "Loading...";
-                     //alert("Before");
                         	  xhr.setRequestHeader ("Authorization", "Basic " + btoa("devglan-client:devglan-secret"));
-                        	 // xhr.setRequestHeader('Authorization', make_base_auth("devglan-client", "devglan-secret")); 
+                        	
                         },
                         complete: function(response) {
-                       //    $('#add_d_spin').removeClass('fa-spinner');
-                        //   document.getElementById('add_d').innerHTML = "Add Disease";
-                        	//alert("Complete");
                         	if(response.status == 400){
                         		console.log('Response - '+ response.status);
                         		alert("Login Failed, Pls Retry");
@@ -112,25 +117,13 @@
                          },
                        success: function(json){
                             
-                            	// alert("Empty");
-                             
-                      //   if(html=='true')
-                         // {
-                            // swal("Success", "Disease Added Successfully", "success");
-                          //  window.location='diagnostic_engine.php';
                          
                                console.log(json);
-                            //   alert("Login Success");
                                var token = json.access_token
                                var ref = json.refresh_token
                                
                                window.location = '/process_login/'+token+'/'+ref+'?access_token='+token;
-                             //  alert(json.access_token);
-                            //document.getElementById("submit_disease").reset();
-
-                         // }else{
-                          //     alert("Login Failed");
-                          //}
+                     
 
                       }
                     });
@@ -138,14 +131,6 @@
                 });
             });
 	</script>
-    <!-- Must needed plugins to the run this Template -->
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/bundle.js"></script>
-
-    <!-- Active JS -->
-    <script src="/assets/js/default-assets/active.js"></script>
 
 </body>
 

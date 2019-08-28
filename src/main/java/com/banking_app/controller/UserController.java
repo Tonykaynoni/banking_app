@@ -90,6 +90,21 @@ public class UserController {
     	return new ModelAndView("creditAccount");  
     }
     
+    @RequestMapping(value = "/users/home")
+    public ModelAndView home(User userinfo, Model model){
+       // userService.delete(id);
+    	//String currentUsername = principal.getName();
+    	//userService.loadUserByUsername(currentUsername);
+    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+    	   
+    	Long userid = userService.userId();
+    	userinfo.setId(userid);
+    	User current_info = userD.findById(userid).get();
+    	model.addAttribute("info", current_info);
+    	model.addAttribute("ses_info", access_token);
+    	return new ModelAndView("home");  
+    }
+    
     @RequestMapping(value = "/users/withdraw")
     public ModelAndView withdraw(User userinfo, Model model){
        // userService.delete(id);

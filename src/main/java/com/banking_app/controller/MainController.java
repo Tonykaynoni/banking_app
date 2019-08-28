@@ -27,7 +27,7 @@ public class MainController {
 	@Autowired
 	private HttpSession session;
 	  
-	@RequestMapping(value="/login")
+	@RequestMapping(value="/")
 	public String userLoginPage() {
  		return "login";
  	} 
@@ -36,13 +36,10 @@ public class MainController {
 	public String regPage(User user, Model model) {
 		   List<Account_type> list = acct.findAll();
 		    model.addAttribute("accounts", list);
- 		return "register.html";
+ 		return "register";
  	}
 	
-	@GetMapping(value="/")
-	public String homePage() {		 
- 		return "index";
- 	}
+	
 	 
     @RequestMapping(value = "/process_login/{access_token}/{refresh_token}")
     public String register(@PathVariable Map<String,String> pathValues) throws Exception{
@@ -58,7 +55,9 @@ public class MainController {
        // String a =(String) session.getAttribute("session_access_tok");
         
         
-        return ("redirect:/users/credit_account?access_token="+info.getAccessToken());
+        //return ("redirect:/users/credit_account?access_token="+info.getAccessToken());
+
+        return ("redirect:/users/home?access_token="+info.getAccessToken());
     }
     
     
