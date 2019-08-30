@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	private Long userId;
+
 	@Autowired
 	private HttpSession session;
 	@Override
@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		
-		this.userId = user.getId();
+
 
         session.setAttribute("session_user_id", user.getId());
 		return new CustomUserDetails(user);
@@ -64,11 +63,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userDao.save(user);
     }
 
-	@Override
-	public Long userId() {
-		// TODO Auto-generated method stub
-		return userId;
-	}
 	
 	
 }

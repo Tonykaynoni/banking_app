@@ -1,5 +1,6 @@
 package com.banking_app.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 @Entity
@@ -19,14 +21,16 @@ public class Transaction {
      private String transaction_type;
      private int amount;
      
-     @CreatedBy
-     private Timestamp trans_time;
+     @CreationTimestamp
+     private Date transTime;
      
-	public Timestamp getTrans_time() {
-		return trans_time;
+	
+	
+	public Date getTransTime() {
+		return transTime;
 	}
-	public void setTrans_time(Timestamp trans_time) {
-		this.trans_time = trans_time;
+	public void setTransTime(Date transTime) {
+		this.transTime = transTime;
 	}
 	public Long getId() {
 		return id;

@@ -11,7 +11,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Transaction History (T-Bank)</title>
+    <title>Buy Credit (T-Bank)</title>
 
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/core-img/favicon.png">
@@ -19,11 +19,7 @@
     <!-- These plugins only need for the run this page -->
     <link rel="stylesheet" href="/assets/css/default-assets/datatables.bootstrap4.css">
     <link rel="stylesheet" href="/assets/css/default-assets/responsive.bootstrap4.css">
-    
-     <!-- These plugins only need for the run this page -->
-    <link rel="stylesheet" href="/assets/css/default-assets/buttons.bootstrap4.css">
-    <link rel="stylesheet" href="/assets/css/default-assets/select.bootstrap4.css">
-    
+
     <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
     <link rel="stylesheet" href="/assets/css/default-assets/style.css">
 
@@ -62,8 +58,9 @@
                                   <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" >Withdraw</a></li>
                                   <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" >Check Balance</a></li>
                                   <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" >Take Loan</a></li>
-                                  <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
-                                  <li class="active"><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
+                                  <li  class="active"><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
+                                   <li class=""><a th:href="@{/users/pay_bills?access_token=}+${ses_info.getAccessToken()}" >Pay Bills</a></li>
+                                  <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
                                   <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" >Update Profile</a></li>
                                   <li><a th:href="@{/login}" >Logout</a></li>
                               </ul>
@@ -261,75 +258,30 @@
                             </div>
                         </div>
                         
-                        <div class="col-12">
-                        
-                            <div class="dashboard-infor-mation d-flex flex-wrap align-items-center mb-3">
-                                <div class="dashboard-btn-group d-flex align-items-center">
-                                
-                                        <form th:action="@{/search_bydate?access_token=}+${ses_info.getAccessToken()}" method="post" th:object="${info}" class="row" id="take_loan" >
-								           
-										     
-										      <div><input type="date" class="form-control" id="fromdate" name="fromdate" autofocus="autofocus" required /></div>
-										      <div><input type="date" class="form-control" id="todate" name="todate" required /></div>
-										      
-									     
-			 						      <div><input type="submit" class="btn btn-primary form-control" value="Search" /></div>
-									     
-									</form>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                      
                     </div>
 
                     <div class="row">
                         <!-- Single Widget -->
                         <div class="col-xl-12 col-md-12">
-                          
-								    
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-
-                                    <h4 class="card-title mb-2">Transaction History</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        
-                                    </p>
-                                
-                                    <table id="selection-datatable" class="table dt-responsive nowrap w-100">
-                                        <thead>
-                                        
-                                            <tr>
-                                                 <th>Date</th>
-                                                <th>Transaction Type</th>
-                                                <th>Amount</th>
-                                               
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                        
-                                            <tr th:each="myHis : ${list}" >
-                                                <td th:text="${myHis.transTime}"></td>
-                                                <td th:text="${myHis.transaction_type}"></td>
-                                                <td th:text="${myHis.amount}"></td>
-                                                
-                                                
-                                            </tr>                                           
-                                         
-                                        </tbody>
-                                    </table>
-<div> <a href="#" class="btn btn-primary "><i class="ti-bookmark-alt font-11"></i> Downloads Report (Pdf)</a>
-                                    <a href="#" class="btn btn-primary"><i class="ti-bookmark-alt font-11"></i> Downloads Report (Excel)</a></div>
-									
-                                </div> <!-- end card body-->
-                            </div> <!-- end card -->
-                        </div><!-- end col-->
-                    </div>
-                    <!-- end row-->
+                            <h1>Buy Credit</h1>
+							 <b>Account Balance - <span th:text="${info.getAccount_balance()}"></span> Naira</b>
+								    <hr />
+								     <p th:if="${response}" th:text="${response}" class="error" style="color:red">Transaction Failed</p>
+								    <form th:action="@{/buycredit?access_token=}+${ses_info.getAccessToken()}" method="post" th:object="${info}" class="" id="take_loan" >
+								          <div class="form-group">
+										      <label for="phone">Enter Phone Number</label>:
+										      <input type="number" class="form-control" id="phone" name="phone" autofocus="autofocus" required />
+										      
+									      </div>
+								          <div class="form-group">
+										      <label for="amount">Enter Amount</label>:
+										      <input type="number" class="form-control" id="credit_amt" name="credit_amt" required />
+										       <br />
+									      </div>
+									     
+			 						      <input type="submit" class="btn btn-primary form-control" value="Buy Credit" />
+									      
+									</form>
 								   
                         </div>
                         <!-- Single Widget -->
@@ -375,21 +327,24 @@
     <script src="/assets/js/default-assets/active.js"></script>
 
     <!-- These plugins only need for the run this page -->
-
-    
-     <!-- These plugins only need for the run this page -->
-    <script src="/assets/js/default-assets/jquery.datatables.min.js"></script>
-    <script src="/assets/js/default-assets/datatables.bootstrap4.js"></script>
-    <script src="/assets/js/default-assets/datatable-responsive.min.js"></script>
-    <script src="/assets/js/default-assets/responsive.bootstrap4.min.js"></script>
-    <script src="/assets/js/default-assets/datatable-button.min.js"></script>
-    <script src="/assets/js/default-assets/button.bootstrap4.min.js"></script>
-    <script src="/assets/js/default-assets/button.html5.min.js"></script>
-    <script src="/assets/js/default-assets/button.flash.min.js"></script>
-    <script src="/assets/js/default-assets/button.print.min.js"></script>
-    <script src="/assets/js/default-assets/datatables.keytable.min.js"></script>
-    <script src="/assets/js/default-assets/datatables.select.min.js"></script>
-    <script src="/assets/js/default-assets/demo.datatable-init.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.resize.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.categories.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.fillbetween.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.stack.js"></script>
+    <script src="/assets/js/default-assets/jquery.flot.pie.js"></script>
+    <script src="/assets/js/default-assets/flot-chart-custom.js"></script>
+    <script src="/assets/js/default-assets/chart.bundle.min.js"></script>
+    <script src="/assets/js/default-assets/chart.js"></script>
+    <script src="/assets/js/default-assets/line-chart-custom.js"></script>
+    <script src="/assets/js/default-assets/am-chart.js"></script>
+    <script src="/assets/js/default-assets/gauge.js"></script>
+    <script src="/assets/js/default-assets/serial.js"></script>
+    <script src="/assets/js/default-assets/light.js"></script>
+    <script src="/assets/js/default-assets/ammap.min.js"></script>
+    <script src="/assets/js/default-assets/worldlow.js"></script>
+    <script src="/assets/js/default-assets/radar.js"></script>
+    <script src="/assets/js/default-assets/widget-page-chart-active.js"></script>
 
 </body>
 
