@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.banking_app.dao.TransactionRepository;
 import com.banking_app.dao.UserDao;
 import com.banking_app.model.Role;
 import com.banking_app.model.TokenInfo;
+import com.banking_app.model.Transaction;
 import com.banking_app.model.User;
 import com.banking_app.service.RoleService;
+import com.banking_app.service.impl.TransactionServiceImpl;
 import com.banking_app.service.impl.UserServiceImpl;
 
 
@@ -31,8 +35,13 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+    
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private TransactionServiceImpl transLog;
     
     @Autowired
     private UserDao userD;
@@ -99,11 +108,11 @@ public class UserController {
     	   
     	Long userid = userService.userId();
     	userinfo.setId(userid);
-    	User current_info = userD.findById(userid).get();
-    	model.addAttribute("info", current_info);
+    	userinfo = userD.findById(userid).get();
+    	model.addAttribute("info", userinfo);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("home");  
-    }
+      }
     
     @RequestMapping(value = "/users/withdraw")
     public ModelAndView withdraw(User userinfo, Model model){
@@ -131,19 +140,34 @@ public class UserController {
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
     	model.addAttribute("info", current_info);
+    	model.addAttribute("list", transLog.findHistoryById(userid));
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("transaction_history");  
     }
     
     
     @RequestMapping(value = "/credit_acct", method = RequestMethod.POST)
-    public ModelAndView credit(@RequestParam("account_balance") int amount){
+    public ModelAndView credit(@RequestParam("account_balance") int amount,Model model){
     	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
+    	if(user.getAccount_balance() == 0 && amount <= 300 ){
+    		
+    		user.setId(userid);
+        	user = userD.findById(userid).get();
+        	model.addAttribute("info", user);
+        	model.addAttribute("ses_info", access_token);
+    	   model.addAttribute("response", "Operation Failed, You must add an amount less than your minimum allowed amount");
+    	   return new ModelAndView("creditAccount");   	
+    	}
     	user.setAccount_balance(amount + user.getAccount_balance());;
     	user.setId(userid);
+    	Transaction tr  = new Transaction();
+    	tr.setAmount(amount);
+    	tr.setTransaction_type("Credit");
+    	tr.setUserId(userid);
+    	transLog.save(tr);
     	userD.save(user);
     	//model.addAttribute("info", current_info);
         return new ModelAndView("redirect:/users/credit_account?access_token="+access_token.getAccessToken());  
@@ -151,13 +175,27 @@ public class UserController {
    
     
     @RequestMapping(value = "/withdraw_acct", method = RequestMethod.POST)
-    public ModelAndView withdrawFromAcct(@RequestParam("account_balance") int amount){
+    public ModelAndView withdrawFromAcct(@RequestParam("account_balance") int amount,Model model){
     	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
+        if((user.getAccount_balance() - amount) < 300){
+    		
+    		user.setId(userid);
+        	user = userD.findById(userid).get();
+        	model.addAttribute("info", user);
+        	model.addAttribute("ses_info", access_token);
+    	    model.addAttribute("response", "Operation Failed, You can't withdraw more than your minimum balance");
+    	   return new ModelAndView("withdraw");   	
+    	}
     	user.setAccount_balance(user.getAccount_balance() - amount );;
     	user.setId(userid);
+    	Transaction tr  = new Transaction();
+    	tr.setAmount(amount);
+    	tr.setTransaction_type("Withdraw");
+    	tr.setUserId(userid);
+    	transLog.save(tr);
     	userD.save(user);
     	//model.addAttribute("info", current_info);
         return new ModelAndView("redirect:/users/withdraw?access_token="+access_token.getAccessToken());  

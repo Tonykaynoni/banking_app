@@ -1,67 +1,385 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Transaction page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-  
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-	
-  </head>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-  <body>
-            <div class="row col-lg-12">
-                        <div class="container col-lg-2 jumbotron">
-                              <ul>
-                                  <li><a href="" >Home</a></li>
-                                  <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" >Credit Account</a></li>
+
+<!-- Mirrored from demo.riktheme.com/zinox/side-menu/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Aug 2019 16:25:41 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Transaction History (T-Bank)</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/img/core-img/favicon.png">
+
+    <!-- These plugins only need for the run this page -->
+    <link rel="stylesheet" href="/assets/css/default-assets/datatables.bootstrap4.css">
+    <link rel="stylesheet" href="/assets/css/default-assets/responsive.bootstrap4.css">
+    
+     <!-- These plugins only need for the run this page -->
+    <link rel="stylesheet" href="/assets/css/default-assets/buttons.bootstrap4.css">
+    <link rel="stylesheet" href="/assets/css/default-assets/select.bootstrap4.css">
+    
+    <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
+    <link rel="stylesheet" href="/assets/css/default-assets/style.css">
+
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="droba-loader">
+        <div class="loader"></div>
+    </div>
+    <!--Preloader-->
+
+    <!-- ======================================
+    ******* Page Wrapper Area Start **********
+    ======================================= -->
+    <div class="ecaps-page-wrapper">
+        <!-- Sidemenu Area -->
+        <div class="ecaps-sidemenu-area">
+            <!-- Desktop Logo -->
+            <div class="ecaps-logo">
+                <a href="index-2.html"><img class="desktop-logo" src="/img/core-img/logo.png" alt="Desktop Logo"> <img class="small-logo" src="/img/core-img/small-logo.png" alt="Mobile Logo"></a>
+            </div>
+
+            <!-- Side Nav -->
+            <div class="ecaps-sidenav" id="ecapsSideNav">
+                <!-- Side Menu Area -->
+                <div class="side-menu-area">
+                    <!-- Sidebar Menu -->
+                    <nav>
+                        <ul class="sidebar-menu" data-widget="tree">
+                            <li><a href=""><i class="icon_lifesaver"></i> <span>Dashboard</span></a></li>
+                           
+                          
+                              
+                                  <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" ><i class="icon_cog"></i> <span>Credit Account</span></a></li>
                                   <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" >Withdraw</a></li>
                                   <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" >Check Balance</a></li>
                                   <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" >Take Loan</a></li>
                                   <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
-                                  <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
+                                  <li class="active"><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
                                   <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" >Update Profile</a></li>
-                                  <li><a th:href="@{/users/logout?access_token=}+${ses_info.getAccessToken()}" >Logout</a></li>
+                                  <li><a th:href="@{/login}" >Logout</a></li>
                               </ul>
-                        </div>
-					    <div class="container col-lg-10">
-					        <div class="col-offset-6 centered">
-					       
-							   <h1>Transaction History</h1>
-							  <span>Account Balance </span> <b><span th:text="${info.getAccount_balance()}"></span> Naira</b>
-								    <hr />
-								   <table id="table_id" class="display table">
-    <thead>
-        <tr>
-            <th>Transaction Type</th>
-            <th>Amount</th>
-            <th>Time</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
-             <td>Row 1 Data 2</td>
-        </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-             <td>Row 2 Data 2</td>
-        </tr>
-    </tbody>
-</table>
-								   
-					        </div>			    
-					   </div> 
-			</div>  
+                        
+                    </nav>
+                </div>
+            </div>
+        </div>
 
-	<script type="text/javascript">
-	$(document).ready( function () {
-	    $('#table_id').DataTable();
-	} );
-	</script>
-  </body>
+        <!-- Page Content -->
+        <div class="ecaps-page-content">
+            <!-- Top Header Area -->
+            <header class="top-header-area d-flex align-items-center justify-content-between">
+                <div class="left-side-content-area d-flex align-items-center">
+                    <!-- Mobile Logo -->
+                    <div class="mobile-logo mr-3 mr-sm-4">
+                        <a href="index-2.html"><img src="img/core-img/small-logo.png" alt="Mobile Logo"></a>
+                    </div>
+
+                    <!-- Triggers -->
+                    <div class="ecaps-triggers mr-1 mr-sm-3">
+                        <div class="menu-collasped" id="menuCollasped">
+                            <i class="zmdi zmdi-menu"></i>
+                        </div>
+                        <div class="mobile-menu-open" id="mobileMenuOpen">
+                            <i class="zmdi zmdi-menu"></i>
+                        </div>
+                    </div>
+
+                    <!-- Left Side Nav -->
+                    <ul class="left-side-navbar d-flex align-items-center">
+                        <li class="nav-item dropdown ml-1 ml-sm-3">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Apps <i class="fa fa-angle-down"></i></button>
+                            <!-- Dropdown Menu -->
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
+                                <a href="#" class="dropdown-item">- Profile</a>
+                                <a href="#" class="dropdown-item">- Messages</a>
+                                <a href="#" class="dropdown-item">- Settings</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="right-side-navbar d-flex align-items-center justify-content-end">
+                    <!-- Mobile Trigger -->
+                    <div class="right-side-trigger" id="rightSideTrigger">
+                        <i class="ti-align-left"></i>
+                    </div>
+
+                    <!-- Top Bar Nav -->
+                    <ul class="right-side-content d-flex align-items-center">
+                        <li class="hide-phone app-search mr-15">
+                            <form role="search" class=""><input type="text" placeholder="Search..." class="form-control"> <button type="submit" class="mr-0"><i class="fa fa-search"></i></button></form>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon_globe-2" aria-hidden="true"></i></button>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- Top Message Area -->
+                                <div class="top-message-area">
+                                    <!-- Heading -->
+                                    <div class="top-message-heading">
+                                        <div class="heading-title">
+                                            <h6>Messages</h6>
+                                        </div>
+                                        <span>5 New</span>
+                                    </div>
+                                    <div class="message-box" id="messageBox">
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>6-hour video course on Angular</span>
+                                                <span>3 min ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>Google Ads: You'll get a refund soon</span>
+                                                <span>27 min ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>New Feature: HTTP Method Selection</span>
+                                                <span>56 min ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>The Complete JavaScript Handbook</span>
+                                                <span>1 hour ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>New comment: ecaps Template</span>
+                                                <span>2 days ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>6-hour video course on Angular</span>
+                                                <span>3 min ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>Google Ads: You'll get a refund soon</span>
+                                                <span>27 min ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="zmdi zmdi-email-open"></i>
+                                            <span class="message-text">
+                                                <span>New Feature: HTTP Method Selection</span>
+                                                <span>56 min ago</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon_lightbulb_alt" aria-hidden="true"></i> <span class="active-status"></span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- Top Notifications Area -->
+                                <div class="top-notifications-area">
+                                    <!-- Heading -->
+                                    <div class="notifications-heading">
+                                        <div class="heading-title">
+                                            <h6>Notifications</h6>
+                                        </div>
+                                        <span>5 New</span>
+                                    </div>
+
+                                    <div class="notifications-box" id="notificationsBox">
+                                        <a href="#" class="dropdown-item"><i class="ti-face-smile bg-success"></i><span>We've got something for you!</span></a>
+                                        <a href="#" class="dropdown-item"><i class="zmdi zmdi-notifications-active bg-danger"></i><span>Domain names expiring on Tuesday</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-check"></i><span>Your commissions has been sent</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-heart bg-success"></i><span>You sold an item!</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-bolt bg-warning"></i><span>Security alert for your linked Google account</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-face-smile bg-success"></i><span>We've got something for you!</span></a>
+                                        <a href="#" class="dropdown-item"><i class="zmdi zmdi-notifications-active bg-danger"></i><span>Domain names expiring on Tuesday</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-check"></i><span>Your commissions has been sent</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-heart bg-success"></i><span>You sold an item!</span></a>
+                                        <a href="#" class="dropdown-item"><i class="ti-bolt bg-warning"></i><span>Security alert for your linked Google account</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="img/member-img/mail-5.jpg" alt=""></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- User Profile Area -->
+                                <div class="user-profile-area">
+                                    <div class="user-profile-heading">
+                                        <!-- Thumb -->
+                                        <div class="profile-thumbnail">
+                                            <img src="img/member-img/mail-5.jpg" alt="">
+                                        </div>
+                                        <!-- Profile Text -->
+                                        <div class="profile-text">
+                                            <h6>Ajoy Das</h6>
+                                            <span>ajoydas@example.com</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="dropdown-item"><i class="ti-user text-default" aria-hidden="true"></i> My profile</a>
+                                    <a href="#" class="dropdown-item"><i class="zmdi zmdi-email-open text-success" aria-hidden="true"></i> Messages</a>
+                                    <a href="#" class="dropdown-item"><i class="ti-settings text-default" aria-hidden="true"></i> Account settings</a>
+                                    <a href="#" class="dropdown-item"><i class="ti-heart text-purple" aria-hidden="true"></i> Support</a>
+                                    <a href="#" class="dropdown-item"><i class="ti-unlink text-warning" aria-hidden="true"></i> Sign-out</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <div class="dashboard-header-title mb-3">
+                                <h6 class="mb-0">Welcome !</h6>
+                                <p class="mb-0"><span th:text="${info.getFullname()}"></span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6">
+                            <div class="dashboard-infor-mation d-flex flex-wrap align-items-center mb-3">
+                                <div class="dashboard-btn-group d-flex align-items-center">
+                                    <a href="#" class="btn btn-primary ml-1">Downloads Report</a>
+                                    <a href="#" class="btn btn-primary ml-1"><i class="ti-bookmark-alt font-11"></i> Export</a>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+
+                    <div class="row">
+                        <!-- Single Widget -->
+                        <div class="col-xl-12 col-md-12">
+                          
+								    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <h4 class="card-title mb-2">Transaction History</h4>
+                                    <p class="text-muted font-14 mb-4">
+                                        
+                                    </p>
+
+                                    <table id="selection-datatable" class="table dt-responsive nowrap w-100">
+                                        <thead>
+                                        
+                                            <tr>
+                                                <th>S/N</th>
+                                                <th>Transaction Type</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                        
+                                            <tr th:each="myHis : ${list}" >
+                                                <td>1</td>
+                                                <td th:text="${myHis.transaction_type}"></td>
+                                                <td th:text="${myHis.amount}"></td>
+                                                <td th:text="${myHis.trans_time}"></td>
+                                                
+                                            </tr>                                           
+                                         
+                                        </tbody>
+                                    </table>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                    <!-- end row-->
+								   
+                        </div>
+                        <!-- Single Widget -->
+
+                        <!-- Single Widget -->
+                       
+         
+
+                     
+                    </div>
+                    
+                    <br /><br />
+                </div>
+
+                <!-- Footer Area -->
+                <footer class="footer-area d-flex align-items-center flex-wrap">
+                    <!-- Copywrite Text -->
+                    <div class="copywrite-text">
+                        <p>T-Bank &copy; 2019 Developed by <a href="#">Tonykay</a></p>
+                    </div>
+                    <!-- Footer Nav -->
+                    <ul class="footer-nav d-flex align-items-center">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Purchase</a></li>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- ======================================
+    ********* Page Wrapper Area End ***********
+    ======================================= -->
+
+    <!-- Must needed plugins to the run this Template -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bundle.js"></script>
+    <script src="/assets/js/default-assets/date-time.js"></script>
+
+    <!-- Active JS -->
+    <script src="/assets/js/default-assets/active.js"></script>
+
+    <!-- These plugins only need for the run this page -->
+
+    
+     <!-- These plugins only need for the run this page -->
+    <script src="/assets/js/default-assets/jquery.datatables.min.js"></script>
+    <script src="/assets/js/default-assets/datatables.bootstrap4.js"></script>
+    <script src="/assets/js/default-assets/datatable-responsive.min.js"></script>
+    <script src="/assets/js/default-assets/responsive.bootstrap4.min.js"></script>
+    <script src="/assets/js/default-assets/datatable-button.min.js"></script>
+    <script src="/assets/js/default-assets/button.bootstrap4.min.js"></script>
+    <script src="/assets/js/default-assets/button.html5.min.js"></script>
+    <script src="/assets/js/default-assets/button.flash.min.js"></script>
+    <script src="/assets/js/default-assets/button.print.min.js"></script>
+    <script src="/assets/js/default-assets/datatables.keytable.min.js"></script>
+    <script src="/assets/js/default-assets/datatables.select.min.js"></script>
+    <script src="/assets/js/default-assets/demo.datatable-init.js"></script>
+
+</body>
+
+
+<!-- Mirrored from demo.riktheme.com/zinox/side-menu/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Aug 2019 16:29:19 GMT -->
 </html>

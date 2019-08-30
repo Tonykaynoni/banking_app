@@ -1,12 +1,33 @@
 package com.banking_app.model;
 
-public class Transactions {
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+@Entity
+public class Transaction {
+	@Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
      private Long id;
+	
      private Long userId;
      private String transaction_type;
-     private Long amount;
-     private String trans_time;
+     private int amount;
      
+     @CreatedBy
+     private Timestamp trans_time;
+     
+	public Timestamp getTrans_time() {
+		return trans_time;
+	}
+	public void setTrans_time(Timestamp trans_time) {
+		this.trans_time = trans_time;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -25,18 +46,13 @@ public class Transactions {
 	public void setTransaction_type(String transaction_type) {
 		this.transaction_type = transaction_type;
 	}
-	public Long getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(Long amount) {
-		this.amount = amount;
+	public void setAmount(int amount2) {
+		this.amount = amount2;
 	}
-	public String getTrans_time() {
-		return trans_time;
-	}
-	public void setTrans_time(String trans_time) {
-		this.trans_time = trans_time;
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,7 +68,7 @@ public class Transactions {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Transactions other = (Transactions) obj;
+		Transaction other = (Transaction) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
