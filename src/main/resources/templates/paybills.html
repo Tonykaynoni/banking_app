@@ -48,21 +48,31 @@
                 <!-- Side Menu Area -->
                 <div class="side-menu-area">
                     <!-- Sidebar Menu -->
-                    <nav>
+               <nav>
                         <ul class="sidebar-menu" data-widget="tree">
-                            <li><a href=""><i class="icon_lifesaver"></i> <span>Dashboard</span></a></li>
+                            <li><a href=""><i class="icon-desktop
+"></i> <span>Dashboard</span></a></li>
                            
                           
                               
-                                  <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" ><i class="icon_cog"></i> <span>Credit Account</span></a></li>
-                                  <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" >Withdraw</a></li>
-                                  <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" >Check Balance</a></li>
-                                  <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" >Take Loan</a></li>
-                                  <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
-                                  <li class="active"><a th:href="@{/users/pay_bills?access_token=}+${ses_info.getAccessToken()}" >Pay Bills</a></li>
-                                  <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" >Transaction History</a></li>
-                                  <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" >Update Profile</a></li>
-                                  <li><a th:href="@{/login}" >Logout</a></li>
+                                  <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-briefcase
+"></i> <span>Credit Account</span></a></li>
+                                  <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-dial
+"></i>Withdraw</a></li>
+                                  <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-wallet
+"></i>Check Balance</a></li>
+                                  <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-recycle
+"></i>Take Loan</a></li>
+                                  <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-pricetags
+"></i>Buy Credit</a></li>
+   <li class="active"><a th:href="@{/users/pay_bills?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-layers
+"></i>Pay Bills</a></li>
+                                  <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-book-open
+"></i>Transaction History</a></li>
+                                  <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-upload
+"></i>Update Profile</a></li>
+                                  <li><a th:href="@{/login}" ><i class="icon-lock
+"></i>Logout</a></li>
                               </ul>
                         
                     </nav>

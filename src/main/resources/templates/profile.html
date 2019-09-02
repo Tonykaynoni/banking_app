@@ -11,16 +11,20 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Withdraw From Account (T-Bank)</title>
+    <title>Profile (T-Bank)</title>
 
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/core-img/favicon.png">
 
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.png">
+
     <!-- These plugins only need for the run this page -->
-    <link rel="stylesheet" href="/assets/css/default-assets/datatables.bootstrap4.css">
-    <link rel="stylesheet" href="/assets/css/default-assets/responsive.bootstrap4.css">
+    <link rel="stylesheet" href="/assets/css/dropzone.min.css">
+    <link rel="stylesheet" href="/assets/css/default-assets/dropify.min.css">
 
     <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
+
     <link rel="stylesheet" href="/assets/css/default-assets/style.css">
 
 </head>
@@ -48,7 +52,7 @@
                 <!-- Side Menu Area -->
                 <div class="side-menu-area">
                     <!-- Sidebar Menu -->
-               <nav>
+                     <nav>
                         <ul class="sidebar-menu" data-widget="tree">
                             <li><a href=""><i class="icon-desktop
 "></i> <span>Dashboard</span></a></li>
@@ -57,7 +61,7 @@
                               
                                   <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-briefcase
 "></i> <span>Credit Account</span></a></li>
-                                  <li  class="active"><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-dial
+                                  <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-dial
 "></i>Withdraw</a></li>
                                   <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-wallet
 "></i>Check Balance</a></li>
@@ -69,7 +73,7 @@
 "></i>Pay Bills</a></li>
                                   <li><a th:href="@{/users/account_history?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-book-open
 "></i>Transaction History</a></li>
-                                  <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-upload
+                                  <li class="active"><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-upload
 "></i>Update Profile</a></li>
                                   <li><a th:href="@{/login}" ><i class="icon-lock
 "></i>Logout</a></li>
@@ -79,8 +83,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Page Content -->
         <div class="ecaps-page-content">
             <!-- Top Header Area -->
             <header class="top-header-area d-flex align-items-center justify-content-between">
@@ -230,14 +232,14 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="img/member-img/mail-5.jpg" alt=""></button>
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img th:src="${pic}" alt=""></button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <!-- User Profile Area -->
                                 <div class="user-profile-area">
                                     <div class="user-profile-heading">
                                         <!-- Thumb -->
                                         <div class="profile-thumbnail">
-                                            <img src="img/member-img/mail-5.jpg" alt="">
+                                            <img src="/img/member-img/mail-5.jpg" alt="">
                                         </div>
                                         <!-- Profile Text -->
                                         <div class="profile-text">
@@ -259,50 +261,39 @@
 
             <!-- Main Content Area -->
             <div class="main-content">
+                <!-- File upload area Start -->
+                
+	<div th:if="${message}">
+		<h2 th:text="${message}"></h2>
+	</div>
                 <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-6">
-                            <div class="dashboard-header-title mb-3">
-                                <h6 class="mb-0">Welcome !</h6>
-                                <p class="mb-0"><span th:text="${info.getFullname()}"></span></p>
-                            </div>
-                        </div>
-                      
-                    </div>
-
                     <div class="row">
-                        <!-- Single Widget -->
-                        <div class="col-xl-12 col-md-12">
-                            <h1>Withdraw From Account</h1>
-							  <span>Account Balance </span> <b><span th:text="${info.getAccount_balance()}"></span> Naira</b>
-								    <hr />
-								      <p th:if="${response}" th:text="${response}" class="error" style="color:red">Transaction Failed</p>
-								 
-								    <form th:action="@{/withdraw_acct?access_token=}+${ses_info.getAccessToken()}" method="post" th:object="${info}" class="" id="credit_account" >
-								          <div class="form-group">
-										      <label for="amount">Enter Amount to withdraw</label>:
-										      <input type="number" class="form-control" id="account_balance" name="account_balance" autofocus="autofocus" required />
-										       <br />
-									      </div>
-									     
-			 						      <input type="submit" class="btn btn-primary form-control btn-danger" value="Withdraw" />
-									      
-									</form>
-								   
-                        </div>
-                        <!-- Single Widget -->
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">Profile Upload</h4>
+                                    <p class="sub-header mb-30">
+                                       
+                                    </p>
 
-                        <!-- Single Widget -->
-                       
-         
+                                 
+                                    
+                                    <form method="POST" enctype="multipart/form-data" th:action="@{/uploadprofile?access_token=}+${ses_info.getAccessToken()}">
+			<table>
+				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+                         
 
-                     
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div><!-- end col -->
                     </div>
-                    
-                    <br /><br />
+                    <!-- end row -->
                 </div>
 
-                <!-- Footer Area -->
+               <!-- Footer Area -->
                 <footer class="footer-area d-flex align-items-center flex-wrap">
                     <!-- Copywrite Text -->
                     <div class="copywrite-text">
@@ -327,30 +318,13 @@
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bundle.js"></script>
-    <script src="/assets/js/default-assets/date-time.js"></script>
 
     <!-- Active JS -->
     <script src="/assets/js/default-assets/active.js"></script>
 
     <!-- These plugins only need for the run this page -->
-    <script src="/assets/js/default-assets/jquery.flot.js"></script>
-    <script src="/assets/js/default-assets/jquery.flot.resize.js"></script>
-    <script src="/assets/js/default-assets/jquery.flot.categories.js"></script>
-    <script src="/assets/js/default-assets/jquery.flot.fillbetween.js"></script>
-    <script src="/assets/js/default-assets/jquery.flot.stack.js"></script>
-    <script src="/assets/js/default-assets/jquery.flot.pie.js"></script>
-    <script src="/assets/js/default-assets/flot-chart-custom.js"></script>
-    <script src="/assets/js/default-assets/chart.bundle.min.js"></script>
-    <script src="/assets/js/default-assets/chart.js"></script>
-    <script src="/assets/js/default-assets/line-chart-custom.js"></script>
-    <script src="/assets/js/default-assets/am-chart.js"></script>
-    <script src="/assets/js/default-assets/gauge.js"></script>
-    <script src="/assets/js/default-assets/serial.js"></script>
-    <script src="/assets/js/default-assets/light.js"></script>
-    <script src="/assets/js/default-assets/ammap.min.js"></script>
-    <script src="/assets/js/default-assets/worldlow.js"></script>
-    <script src="/assets/js/default-assets/radar.js"></script>
-    <script src="/assets/js/default-assets/widget-page-chart-active.js"></script>
+    <script src="/assets/js/dropzone.min.js"></script>
+    <script src="/assets/js/default-assets/dropzone-custom.js"></script>
 
 </body>
 

@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
         session.setAttribute("session_user_id", user.getId());
+        session.setAttribute("session_user_pic", user.getProfile_picture());
 		return new CustomUserDetails(user);
 	}
 

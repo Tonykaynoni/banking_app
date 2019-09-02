@@ -22,7 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
         http.             
                 authorizeRequests()
-                .antMatchers("/login","/register","/reg_user","/","/static/**","/assets/**","/img/**").permitAll()
+                .antMatchers("/login","/register","/reg_user","/","/static/**","/assets/**","/img/**","/files/**").permitAll()
                 .anyRequest().authenticated().and().httpBasic()         
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()); 
 	}

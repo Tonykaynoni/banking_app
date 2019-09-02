@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.banking_app.dao.TransactionRepository;
 import com.banking_app.dao.UserDao;
@@ -31,12 +33,17 @@ import com.banking_app.service.RoleService;
 import com.banking_app.service.impl.LoansServiceImpl;
 import com.banking_app.service.impl.TransactionServiceImpl;
 import com.banking_app.service.impl.UserServiceImpl;
+import com.banking_app.storage.StorageService;
 
 
 
 @RestController
 public class UserController {
-
+	 private final StorageService storageService;
+	 @Autowired
+	    public UserController(StorageService storageService) {
+	        this.storageService = storageService;
+	    }
     @Autowired
     private UserServiceImpl userService;
     
@@ -58,7 +65,7 @@ public class UserController {
     @Autowired
 	private HttpSession session;
     
-    
+       
     @RequestMapping(value="/userpage", method = RequestMethod.GET)
     public List<User> listUser(){
         return userService.findAll();
@@ -166,6 +173,29 @@ public class UserController {
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("transaction_history");  
     }
+    
+    @RequestMapping(value = "/users/profile")
+    public ModelAndView profile(User userinfo, Model model){
+       // userService.delete(id);
+    	//String currentUsername = principal.getName();
+    	//userService.loadUserByUsername(currentUsername);
+    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+    
+    	Long userid = (Long) session.getAttribute("session_user_id");
+    	userinfo.setId(userid);
+    	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+    	  model.addAttribute("files", storageService.loadAll().map(
+                  path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                          "serveFile", path.getFileName().toString()).build().toString())
+                  .collect(Collectors.toList()));
+
+    	model.addAttribute("info", current_info);
+    	model.addAttribute("pic", profile_pic);
+    	model.addAttribute("list", transLog.findHistoryById(userid));
+    	model.addAttribute("ses_info", access_token);
+    	return new ModelAndView("profile");  
+    }
     @RequestMapping(value = "/search_bydate")
     public ModelAndView trans_histroy_search(User userinfo, Model model,@RequestParam("fromdate") Date fromdate,@RequestParam("todate") Date todate){
        // userService.delete(id);
@@ -198,7 +228,7 @@ public class UserController {
     	   model.addAttribute("response", "Operation Failed, You must add an amount less than your minimum allowed amount");
     	   return new ModelAndView("creditAccount");   	
     	}
-    	user.setAccount_balance(amount + user.getAccount_balance());;
+    	user.setAccount_balance(amount + user.getAccount_balance());
     	user.setId(userid);
     	Transaction tr  = new Transaction();
     	tr.setAmount(amount);
