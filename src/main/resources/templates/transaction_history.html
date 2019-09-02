@@ -26,6 +26,40 @@
     
     <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
     <link rel="stylesheet" href="/assets/css/default-assets/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#selection-datatable2').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'excel',
+                    text: 'Export To Excel',
+                    className: 'exportExcel',
+                    filename: 'Transactions_Excel',
+                    exportOptions: { modifier: { page: 'all'} }
+                },
+                {
+                    extend: 'csv',
+                    text: 'Export To CSV',
+                    className: 'exportExcel',
+                    filename: 'Transactions_Csv',
+                    exportOptions: { modifier: { page: 'all'} }
+                },
+                {
+                    extend: 'pdf',
+                    text: 'Export To PDF',
+                    className: 'exportExcel',
+                    filename: 'Transaction_Pdf',
+                    exportOptions: { modifier: { page: 'all'} }
+                }]
+            });
+ 
+        });
+    </script>
 
 </head>
 
@@ -298,7 +332,7 @@
                                         
                                     </p>
                                 
-                                    <table id="selection-datatable" class="table dt-responsive nowrap w-100">
+                                    <table id="selection-datatable2" class="table dt-responsive nowrap w-100">
                                         <thead>
                                         
                                             <tr>
@@ -322,9 +356,6 @@
                                          
                                         </tbody>
                                     </table>
-<div> <a href="#" class="btn btn-primary "><i class="ti-bookmark-alt font-11"></i> Downloads Report (Pdf)</a>
-                                    <a href="#" class="btn btn-primary"><i class="ti-bookmark-alt font-11"></i> Downloads Report (Excel)</a></div>
-									
                                 </div> <!-- end card body-->
                             </div> <!-- end card -->
                         </div><!-- end col-->
@@ -390,7 +421,7 @@
     <script src="/assets/js/default-assets/datatables.keytable.min.js"></script>
     <script src="/assets/js/default-assets/datatables.select.min.js"></script>
     <script src="/assets/js/default-assets/demo.datatable-init.js"></script>
-
+   
 </body>
 
 

@@ -11,7 +11,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Zinox - Bootstrap Admin Template</title>
+    <title>T-Bank</title>
 
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/core-img/favicon.png">
@@ -40,7 +40,7 @@
         <div class="ecaps-sidemenu-area">
             <!-- Desktop Logo -->
             <div class="ecaps-logo">
-                <a href="index-2.html"><img class="desktop-logo" src="/img/core-img/logo.png" alt="Desktop Logo"> <img class="small-logo" src="/img/core-img/small-logo.png" alt="Mobile Logo"></a>
+                T-bank  
             </div>
 
             <!-- Side Nav -->
@@ -50,13 +50,13 @@
                     <!-- Sidebar Menu -->
                     <nav>
                         <ul class="sidebar-menu" data-widget="tree">
-                            <li class="active"><a href=""><i class="icon_lifesaver"></i> <span>Dashboard</span></a></li>
+                            <li class="active"><a href=""><i class="icon_lifesaver"></i> <span>Dashboard1</span></a></li>
                            
                           
                               
                                   <li><a th:href="@{/users/credit_account?access_token=}+${ses_info.getAccessToken()}" ><i class="icon_cog"></i> <span>Credit Account</span></a></li>
                                   <li><a th:href="@{/users/withdraw?access_token=}+${ses_info.getAccessToken()}" >Withdraw</a></li>
-                                  <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" >Check Balance</a></li>
+                                  <li><a th:href="@{/users/check_balance?access_token=}+${ses_info.getAccessToken()}" ><i class="icon_cog"></i><span>Check Balance</span></a></li>
                                   <li><a th:href="@{/users/take_loan?access_token=}+${ses_info.getAccessToken()}" >Take Loan</a></li>
                                   <li><a th:href="@{/users/buy_credit?access_token=}+${ses_info.getAccessToken()}" >Buy Credit</a></li>
                                    <li class=""><a th:href="@{/users/pay_bills?access_token=}+${ses_info.getAccessToken()}" >Pay Bills</a></li>
@@ -76,8 +76,7 @@
             <header class="top-header-area d-flex align-items-center justify-content-between">
                 <div class="left-side-content-area d-flex align-items-center">
                     <!-- Mobile Logo -->
-                    <div class="mobile-logo mr-3 mr-sm-4">
-                        <a href="index-2.html"><img src="img/core-img/small-logo.png" alt="Mobile Logo"></a>
+                    <div class="mobile-logo mr-3 mr-sm-4">T-Bank
                     </div>
 
                     <!-- Triggers -->
