@@ -1,23 +1,51 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Login page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  </head>
+<!doctype html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-  <body>
-            
-		    <div class="container">
-		        <div class="col-offset-6 centered">
-		           <b><a href="/login">Login</a></b>
-				   <h1>Register New Account Here</h1>
-				  
-					    <form action="/register" method="post" th:object="${user}" class="" id="register" >
+
+<!-- Mirrored from demo.riktheme.com/zinox/side-menu/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Aug 2019 16:35:04 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>T-Bank</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.png">
+
+    <!-- Master Stylesheet [If you remove this CSS file, your file will be broken undoubtedly.] -->
+    <link rel="stylesheet" href="/assets/css/default-assets/style.css">
+
+</head>
+
+<body class="login-area">
+
+    <!-- Preloader -->
+    <div id="droba-loader">
+        <div class="loader"></div>
+    </div>
+    <!--Preloader-->
+
+    <!-- ======================================
+    ******* Page Wrapper Area Start **********
+    ======================================= -->
+    <div class="main-content- h-100vh">
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-md-7 col-lg-5 mx-auto">
+                    <!-- Middle Box -->
+                    <div class="middle-box">
+                            
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Register Account ¦ <a href="/">Login</a></h4>
+                                    <form action="/register" method="post" th:object="${user}" class="" id="register" >
 					        
 					         <div class="form-group">
-							      <label for="fullname">fullname</label>:
+							      <label for="fullname">Full Name</label>:
 							      <input type="text" class="form-control" id="fullname" name="fullname" autofocus="autofocus" /> <br />
 						      </div>
 						      
@@ -63,10 +91,32 @@
 						      
 						      <input type="submit" class="btn btn-primary form-control" value="Register" />
 						</form>
-					   
-		   </div>			    
-			</div>   
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        
 
 
-  </body>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================
+    ********* Page Wrapper Area End ***********
+    ======================================= -->
+
+    <!-- Must needed plugins to the run this Template -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/bundle.js"></script>
+
+    <!-- Active JS -->
+
+
+</body>
+
+
+<!-- Mirrored from demo.riktheme.com/zinox/side-menu/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Aug 2019 16:35:04 GMT -->
 </html>

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +26,14 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import com.banking_app.dao.TransactionRepository;
 import com.banking_app.dao.UserDao;
+import com.banking_app.model.Account_type;
 import com.banking_app.model.Loans;
 import com.banking_app.model.Role;
 import com.banking_app.model.TokenInfo;
 import com.banking_app.model.Transaction;
 import com.banking_app.model.User;
 import com.banking_app.service.RoleService;
+import com.banking_app.service.impl.AccountServiceImpl;
 import com.banking_app.service.impl.LoansServiceImpl;
 import com.banking_app.service.impl.TransactionServiceImpl;
 import com.banking_app.service.impl.UserServiceImpl;
@@ -37,7 +41,7 @@ import com.banking_app.storage.StorageService;
 
 
 
-@RestController
+@Controller
 public class UserController {
 	 private final StorageService storageService;
 	 @Autowired
@@ -62,6 +66,10 @@ public class UserController {
     
     @Autowired 
     private LoansServiceImpl loanImpl;
+    
+    @Autowired 
+    private AccountServiceImpl acctImpl;
+    
     @Autowired
 	private HttpSession session;
     
@@ -86,7 +94,7 @@ public class UserController {
     	
        // return "success";
         
-        return new ModelAndView("redirect:/login?reg=success");
+        return new ModelAndView("redirect:/?reg=success");
     }
    
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
@@ -96,16 +104,57 @@ public class UserController {
     }
     
     
+  	@RequestMapping(value="/")
+  	public String userLoginPage() {
+   		return "login";
+   	} 
+  	
+  	@RequestMapping(value="/register")
+  	public String regPage(User user, Model model) {
+  		   List<Account_type> list = acctImpl.findAll();
+  		    model.addAttribute("accounts", list);
+   		return "register";
+   	}
+  	
+  	
+  	 
+      @RequestMapping(value = "/process_login/{access_token}/{refresh_token}")
+      public String register(@PathVariable Map<String,String> pathValues) throws Exception{
+          String access_token = pathValues.get("access_token");
+          String refresh_token = pathValues.get("refresh_token");
+          
+          TokenInfo info = new TokenInfo(access_token,refresh_token);
+          //System.out.println(access_token);
+          //System.out.println(refresh_token);
+      	//userService.delete(id);
+          session.setAttribute("session_access_details", info);
+          
+         // String a =(String) session.getAttribute("session_access_tok");
+          
+          
+          //return ("redirect:/users/credit_account?access_token="+info.getAccessToken());
+
+          return ("redirect:/users/home?access_token="+info.getAccessToken());
+      }
+      
+    
     @RequestMapping(value = "/users/credit_account")
     public ModelAndView creditAccount(User userinfo, Model model){
        // userService.delete(id);
     	//String currentUsername = principal.getName();
     	//userService.loadUserByUsername(currentUsername);
-    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
-    	 Long userid = (Long) session.getAttribute("session_user_id");
+    	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("creditAccount");  
@@ -121,6 +170,13 @@ public class UserController {
     	 Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("takeloan");  
@@ -138,6 +194,13 @@ public class UserController {
     	 Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	userinfo = userD.findById(userid).get();
+    	String profile_pic = "/files/" + userinfo.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", userinfo);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("home");  
@@ -153,6 +216,13 @@ public class UserController {
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("withdraw");  
@@ -160,14 +230,19 @@ public class UserController {
     
     @RequestMapping(value = "/users/account_history")
     public ModelAndView trans_histroy(User userinfo, Model model){
-       // userService.delete(id);
-    	//String currentUsername = principal.getName();
-    	//userService.loadUserByUsername(currentUsername);
-    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+       
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("list", transLog.findHistoryById(userid));
     	model.addAttribute("ses_info", access_token);
@@ -219,13 +294,15 @@ public class UserController {
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
-    	if(user.getAccount_balance() == 0 && amount <= 300 ){
+    	String acct_type = user.getAccount_type();
+    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
+    	if(user.getAccount_balance() == 0 && amount <= accountDetails.getMin_bal() ){
     		
     		user.setId(userid);
         	user = userD.findById(userid).get();
         	model.addAttribute("info", user);
         	model.addAttribute("ses_info", access_token);
-    	   model.addAttribute("response", "Operation Failed, You must add an amount less than your minimum allowed amount");
+    	   model.addAttribute("response", "Operation Failed, You must add an amount greater than your minimum allowed amount");
     	   return new ModelAndView("creditAccount");   	
     	}
     	user.setAccount_balance(amount + user.getAccount_balance());
@@ -251,11 +328,12 @@ public class UserController {
     	user.setId(userid);
     	userD.save(user);
     	
-    	
+    	String acct_type = user.getAccount_type();
+    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
     	
         //Save Loan 
     	ln.setAmount(amount);
-    	ln.setPayback_amount((double) ((amount/100) * 10) + amount);
+    	ln.setPayback_amount((double) ((amount/100) * accountDetails.getInterest_rate()) + amount);
     	ln.setUserid(userid);
     	ln.setStatus("Not Payed");
     	loanImpl.save(ln);
@@ -273,14 +351,19 @@ public class UserController {
     
     @RequestMapping(value = "/users/pay_bills")
     public ModelAndView payBills(User userinfo, Model model){
-        //userService.delete(id);
-    	//String currentUsername = principal.getName();
-    	//userService.loadUserByUsername(currentUsername);
+    	
     	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("paybills");  
@@ -296,6 +379,13 @@ public class UserController {
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("checkBalance");  
@@ -307,10 +397,20 @@ public class UserController {
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
-    	 if((user.getAccount_balance() - amount) < 300){
+    	String acct_type = user.getAccount_type();
+    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
+    	
+    	 if((user.getAccount_balance() - amount) < accountDetails.getMin_bal()){
      		
      		user.setId(userid);
          	user = userD.findById(userid).get();
+         	String profile_pic = "/files/" + user.getProfile_picture();   
+      	    model.addAttribute("files", storageService.loadAll().map(
+                    path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                            "serveFile", path.getFileName().toString()).build().toString())
+                    .collect(Collectors.toList()));
+
+      	    model.addAttribute("pic", profile_pic);
          	model.addAttribute("info", user);
          	model.addAttribute("ses_info", access_token);
      	    model.addAttribute("response", "Operation Failed, Your Account is too low to complete the transaction");
@@ -340,6 +440,13 @@ public class UserController {
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
+    	String profile_pic = "/files/" + current_info.getProfile_picture();   
+  	    model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+
+  	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
     	return new ModelAndView("buycredit");  
@@ -351,13 +458,16 @@ public class UserController {
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
-    	 if((user.getAccount_balance() - amount) < 300){
+    	String acct_type = user.getAccount_type();
+    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
+    	
+    	 if((user.getAccount_balance() - amount) < accountDetails.getMin_bal()){
      		
      		user.setId(userid);
          	user = userD.findById(userid).get();
          	model.addAttribute("info", user);
          	model.addAttribute("ses_info", access_token);
-     	    model.addAttribute("response", "Operation Failed, You can't buy credit more than your minimum balance");
+     	    model.addAttribute("response", "Operation Failed, Your Account is too low to complete the transaction");
      	   return new ModelAndView("buycredit");   	
      	}
     	user.setAccount_balance(user.getAccount_balance() - amount);
@@ -379,17 +489,18 @@ public class UserController {
     
     @RequestMapping(value = "/withdraw_acct", method = RequestMethod.POST)
     public ModelAndView withdrawFromAcct(@RequestParam("account_balance") int amount,Model model){
-    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
-    	   
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");   	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	User user = userD.findById(userid).get();
-        if((user.getAccount_balance() - amount) < 300){
+    	String acct_type = user.getAccount_type();
+    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
+        if((user.getAccount_balance() - amount) < accountDetails.getMin_bal()){
     		
     		user.setId(userid);
         	user = userD.findById(userid).get();
         	model.addAttribute("info", user);
         	model.addAttribute("ses_info", access_token);
-    	    model.addAttribute("response", "Operation Failed, You can't withdraw more than your minimum balance");
+    	    model.addAttribute("response", "Operation Failed, Your Account is too low to complete the transaction");
     	   return new ModelAndView("withdraw");   	
     	}
     	user.setAccount_balance(user.getAccount_balance() - amount );;
@@ -404,13 +515,7 @@ public class UserController {
         return new ModelAndView("redirect:/users/withdraw?access_token="+access_token.getAccessToken());  
     }
     
-//    /* It updates record for the given id in editstudent page and redirects to /viewstudents */  
-//	 @RequestMapping(value="/editsave",method = RequestMethod.POST)  
-//	    public ModelAndView editsave(@ModelAttribute("book") BooksModal emp){  
-//	    	System.out.println("id is"+emp.getId());
-//	    	bookOp.update(emp);  
-//	        return new ModelAndView("redirect:/viewallbooks");  
-//	    }  
+
     
     
    

@@ -10,7 +10,7 @@ import com.banking_app.model.Account_type;
 
 @Repository
 public interface AccountTypeDoa extends CrudRepository<Account_type, Long> {
-  //   User findByUsername(String username);
+	Account_type findByAccountname(String name);
 	 
 	     
 }

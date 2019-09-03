@@ -11,4 +11,5 @@ public interface AccountService {
 	Account_type save(Account_type acct);
     List<Account_type> findAll();
     void delete(long id);
+    Account_type findbyaccountname(String name);
 }

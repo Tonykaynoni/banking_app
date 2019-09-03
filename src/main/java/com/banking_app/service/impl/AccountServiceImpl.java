@@ -41,6 +41,14 @@ public class AccountServiceImpl implements AccountService {
     public Account_type save(Account_type acct) {
         return acctDao.save(acct);
     }
+
+	@Override
+	public Account_type findbyaccountname(String name) {
+        Account_type accountname = acctDao.findByAccountname(name);
+		
+		return accountname;
+	}
+
 	
 		
 	

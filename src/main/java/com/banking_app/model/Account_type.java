@@ -13,7 +13,7 @@ public class Account_type {
     private long id;
 	
 	 @Column
-     private String account_name;
+     private String accountname;
 	 @Column
      private Long max_bal;
 	 @Column
@@ -29,7 +29,7 @@ public class Account_type {
 
 	public Account_type(String account_name, Long max_bal, Long min_bal, Long interest_rate) {
 		super();
-		this.account_name = account_name;
+		this.accountname = account_name;
 		this.max_bal = max_bal;
 		this.min_bal = min_bal;
 		this.interest_rate = interest_rate;
@@ -44,10 +44,10 @@ public class Account_type {
 	    }
  
 	public String getAccount_name() {
-		return account_name;
+		return accountname;
 	}
 	public void setAccount_name(String account_name) {
-		this.account_name = account_name;
+		this.accountname = account_name;
 	}
 	public Long getMax_bal() {
 		return max_bal;
