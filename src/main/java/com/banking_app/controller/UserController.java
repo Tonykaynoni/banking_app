@@ -140,11 +140,11 @@ public class UserController {
     
     @RequestMapping(value = "/users/credit_account")
     public ModelAndView creditAccount(User userinfo, Model model){
-       // userService.delete(id);
+        //userService.delete(id);
     	//String currentUsername = principal.getName();
     	//userService.loadUserByUsername(currentUsername);
-    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
-    	   
+    	
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");  
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	User current_info = userD.findById(userid).get();
@@ -153,7 +153,6 @@ public class UserController {
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
-
   	    model.addAttribute("pic", profile_pic);
     	model.addAttribute("info", current_info);
     	model.addAttribute("ses_info", access_token);
@@ -189,9 +188,9 @@ public class UserController {
        // userService.delete(id);
     	//String currentUsername = principal.getName();
     	//userService.loadUserByUsername(currentUsername);
-    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
-    	 Long userid = (Long) session.getAttribute("session_user_id");
+    	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);
     	userinfo = userD.findById(userid).get();
     	String profile_pic = "/files/" + userinfo.getProfile_picture();   
@@ -208,10 +207,10 @@ public class UserController {
     
     @RequestMapping(value = "/users/withdraw")
     public ModelAndView withdraw(User userinfo, Model model){
-       // userService.delete(id);
+        //userService.delete(id);
     	//String currentUsername = principal.getName();
     	//userService.loadUserByUsername(currentUsername);
-    	 TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
+    	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
     	userinfo.setId(userid);

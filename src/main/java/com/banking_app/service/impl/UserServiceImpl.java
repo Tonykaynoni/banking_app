@@ -47,7 +47,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //	private List<SimpleGrantedAuthority> getAuthority() {
 //		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 //	}
-
+    public boolean userExist(String username){
+    	     if(userDao.findByUsername(username) == null) {
+    	    	   return false;
+    	     }
+    	return true;
+    }
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
 		userDao.findAll().iterator().forEachRemaining(list::add);
