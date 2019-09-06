@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,17 +63,16 @@ public class MainController {
 	    }
 	 
 	    @RequestMapping(value = "/apiregister", method = RequestMethod.POST)
-	    public String create(@Valid User user,BindingResult result,@RequestParam("username") String myUsername){
+	    public ResponseEntity<String> create(@Valid User user,BindingResult result,@RequestParam("username") String myUsername){
 	    	if (userService.userExist(myUsername)) {
-	    		 return "{response: Username Already Exist}";
+	    		 return new ResponseEntity<>("UserExist",HttpStatus.CONFLICT);
 			} 
 	    	user.setPassword(passwordEncoder.encode(user.getPassword()));
 	    	Set<Role> role = new HashSet<Role>();
 	    	role.add(rolesService.getUserRole());
 	    	user.setRoles(role);
 	    	userService.save(user);
-	    	
-	        return "{response: success}";
+	    	 return new ResponseEntity<>("Successful",HttpStatus.OK);
 	    }
 
 }

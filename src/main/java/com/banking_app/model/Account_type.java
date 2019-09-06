@@ -12,13 +12,13 @@ public class Account_type {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 	
-	 @Column
+	 
      private String accountname;
-	 @Column
+	 
      private Long max_bal;
-	 @Column
+	 
      private Long min_bal;
-	 @Column
+	 
      private Long interest_rate;
 	 
 	 
@@ -27,9 +27,9 @@ public class Account_type {
 		super();
 	}
 
-	public Account_type(String account_name, Long max_bal, Long min_bal, Long interest_rate) {
+	public Account_type(String accountname, Long max_bal, Long min_bal, Long interest_rate) {
 		super();
-		this.accountname = account_name;
+		this.accountname = accountname;
 		this.max_bal = max_bal;
 		this.min_bal = min_bal;
 		this.interest_rate = interest_rate;
@@ -43,12 +43,15 @@ public class Account_type {
 	        this.id = id;
 	    }
  
-	public String getAccount_name() {
-		return accountname;
-	}
-	public void setAccount_name(String account_name) {
-		this.accountname = account_name;
-	}
+
+	public String getAccountname() {
+			return accountname;
+		}
+
+		public void setAccountname(String accountname) {
+			this.accountname = accountname;
+		}
+
 	public Long getMax_bal() {
 		return max_bal;
 	}
@@ -66,6 +69,28 @@ public class Account_type {
 	}
 	public void setInterest_rate(Long interest_rate) {
 		this.interest_rate = interest_rate;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account_type other = (Account_type) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 	   
    

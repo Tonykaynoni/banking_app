@@ -24,9 +24,7 @@
 <body class="login-area">
 
     <!-- Preloader -->
-    <div id="droba-loader">
-        <div class="loader"></div>
-    </div>
+   
     <!--Preloader-->
 
     <!-- ======================================
@@ -41,7 +39,7 @@
                             
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Register Account ¦ <a href="/">Login</a></h4>
+                                    <h4 class="card-title">Register Account | <a href="/">Login</a></h4>
                                     <form action="/register" method="post" th:object="${user}" class="" id="register" >
 					        
 					         <div class="form-group">
@@ -58,7 +56,7 @@
 					          <div class="form-group">
 							      <label for="account_type">Account_type</label>:
 							        <select class="form-control" th:field="*{account_type}">
-						               <option  th:each="info : ${accounts}" th:value="${info.account_name}" th:text="${info.account_name}"></option>
+						               <option  th:each="info : ${accounts}" th:value="${info.accountname}" th:text="${info.accountname}"></option>
 						          </select>
 			
 
