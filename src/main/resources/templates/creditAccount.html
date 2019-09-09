@@ -133,7 +133,7 @@
 								    <form th:action="@{/credit_acct?access_token=}+${ses_info.getAccessToken()}" method="post" th:object="${info}" class="" id="credit_account" >
 								          <div class="form-group">
 										      <label for="amount">Enter Amount to credit</label>:
-										      <input type="number" class="form-control" id="account_balance" name="account_balance" autofocus="autofocus" required />
+										      <input type="number" class="form-control" id="credit_amount" name="credit_amount" autofocus="autofocus" required />
 										       <br />
 									      </div>
 									     

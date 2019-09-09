@@ -151,6 +151,7 @@ public class User {
 	}
 
 	public int getAccount_balance() {
+		
 		return account_balance;
 	}
 

@@ -288,7 +288,7 @@ public class UserController {
     
     
     @RequestMapping(value = "/credit_acct", method = RequestMethod.POST)
-    public ModelAndView credit(@RequestParam("account_balance") int amount,Model model){
+    public ModelAndView credit(@RequestParam("credit_amount") int amount,Model model){
     	TokenInfo access_token = (TokenInfo) session.getAttribute("session_access_details");
     	   
     	Long userid = (Long) session.getAttribute("session_user_id");
