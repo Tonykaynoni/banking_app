@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -201,6 +202,51 @@ public class MainController {
 	    	
 	    	//model.addAttribute("info", current_info);
 	    	return new ResponseEntity<>("Successful",HttpStatus.OK);
+	    }
+	    
+	    @RequestMapping(value = "/api/payBills", method = RequestMethod.POST)
+	    public ResponseEntity<String> payBillsFromAcct(@RequestParam("credit_amt") int amount,@RequestParam("acct_num") int acct_num,@RequestParam("recipient") String recipient,@RequestParam("bank") String bank,Model model,Principal principal){
+	    	String username = principal.getName();
+	    	User user = userD.findByUsername(username);
+	    	Long userid = user.getId();	   
+	    	
+	    	String acct_type = user.getAccount_type();
+	    	Account_type accountDetails = acctImpl.findbyaccountname(acct_type);
+	    	
+	    	 if((user.getAccount_balance() - amount) < accountDetails.getMin_bal()){
+	     		
+//	     		user.setId(userid);
+//	         	user = userD.findById(userid).get();
+	         	//String profile_pic = "/files/" + user.getProfile_picture();   
+	      	 
+
+//	      	    model.addAttribute("pic", profile_pic);
+//	         	model.addAttribute("info", user);
+//	         	model.addAttribute("ses_info", access_token);
+//	     	    model.addAttribute("response", "Operation Failed, Your Account is too low to complete the transaction");
+	         	return new ResponseEntity<>("Minimum_issue",HttpStatus.NOT_ACCEPTABLE);		
+	     	}
+	    	user.setAccount_balance(user.getAccount_balance() - amount);
+	    	user.setId(userid);
+	    	userD.save(user);
+	        	
+	    	//Save Transaction Log
+	    	Transaction tr  = new Transaction();
+	    	tr.setAmount(amount);
+	    	tr.setTransaction_type("Made Payment For " + recipient + " Account Number : " + acct_num);
+	    	tr.setUserId(userid);
+	    	transLog.save(tr);
+	    	
+	    	//model.addAttribute("info", current_info);
+	    	return new ResponseEntity<>("Successful",HttpStatus.OK);
+	    }
+	    
+	    @RequestMapping(value = "/api/account_history")
+	    public ResponseEntity<List<Transaction>> trans_histroy(User userinfo, Model model,Principal principal){
+	    	String username = principal.getName();
+	    	User user = userD.findByUsername(username);
+	    	Long userid = user.getId();	     	   
+	     	return new ResponseEntity<List<Transaction>>(transLog.findHistoryById(userid),HttpStatus.OK);
 	    }
 	   
 
