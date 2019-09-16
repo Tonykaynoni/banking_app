@@ -70,7 +70,7 @@
 "></i><span>Transaction History</span></a></li>
                                   <li><a th:href="@{/users/profile?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-upload
 "></i><span>Update Profile</span></a></li>
-                                  <li><a th:href="@{/login}" ><i class="icon-lock
+                                  <li><a th:href="@{/log-out?access_token=}+${ses_info.getAccessToken()}" ><i class="icon-lock
 "></i><span>Logout</span></a></li>
                               </ul>
                         

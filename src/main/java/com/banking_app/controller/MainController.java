@@ -3,6 +3,9 @@ package com.banking_app.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,6 +66,9 @@ public class MainController {
     
     @Autowired 
     private AccountServiceImpl acctImpl;
+    
+    @Autowired
+	private TokenStore tokenStore;
     
     @Autowired
 	private HttpSession session;
@@ -248,6 +258,41 @@ public class MainController {
 	    	Long userid = user.getId();	     	   
 	     	return new ResponseEntity<List<Transaction>>(transLog.findHistoryById(userid),HttpStatus.OK);
 	    }
-	   
+	    
+	    @RequestMapping(value = "/api/search_bydate")
+	    public ResponseEntity<List<Transaction>> trans_histroy_search(User userinfo, Model model,@RequestParam("fromdate") String fromdate,@RequestParam("todate") String todate,Principal principal){
+	    	String username = principal.getName();
+	    	User user = userD.findByUsername(username);
+	    	Long userid = user.getId();	     
+	    	Date to1 = Date.valueOf(todate);
+	    	Date from1 = Date.valueOf(fromdate);
+			return new ResponseEntity<List<Transaction>>( transLog.searchByInterval(from1, to1, userid),HttpStatus.OK);
+			
+	    	
+			//return new ResponseEntity<List<Transaction>>(me ,HttpStatus.OK);
+	    	
+	    }
+	     
+	    @GetMapping("/api/user-logout")
+		public ResponseEntity<String> logOutUser(@RequestParam("access_token") String token) {
+			
+			try {
+				OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+				if (oAuth2AccessToken != null) {
+					OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
+					tokenStore.removeAccessToken(oAuth2AccessToken);
+					if (oAuth2RefreshToken != null) {
+						tokenStore.removeRefreshToken(oAuth2RefreshToken);
+						return new ResponseEntity<>("logout_processed",HttpStatus.OK);
+					}
+				}
+
+			} catch (Exception e) {
+				System.out.println("Error while logging out because: " + e.getMessage());
+				return new ResponseEntity<>("logout_processed",HttpStatus.OK);
+			}
+			return new ResponseEntity<>("logout_processed",HttpStatus.OK);
+
+		}
 
 }

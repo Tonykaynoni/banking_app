@@ -1,7 +1,6 @@
 package com.banking_app.controller;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,19 +11,22 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import com.banking_app.dao.TransactionRepository;
 import com.banking_app.dao.UserDao;
 import com.banking_app.model.Account_type;
 import com.banking_app.model.Loans;
@@ -69,6 +71,9 @@ public class UserController {
     
     @Autowired 
     private AccountServiceImpl acctImpl;
+
+    @Autowired
+	private TokenStore tokenStore;
     
     @Autowired
 	private HttpSession session;
@@ -124,15 +129,7 @@ public class UserController {
           String refresh_token = pathValues.get("refresh_token");
           
           TokenInfo info = new TokenInfo(access_token,refresh_token);
-          //System.out.println(access_token);
-          //System.out.println(refresh_token);
-      	//userService.delete(id);
           session.setAttribute("session_access_details", info);
-          
-         // String a =(String) session.getAttribute("session_access_tok");
-          
-          
-          //return ("redirect:/users/credit_account?access_token="+info.getAccessToken());
 
           return ("redirect:/users/home?access_token="+info.getAccessToken());
       }
@@ -513,6 +510,30 @@ public class UserController {
     	//model.addAttribute("info", current_info);
         return new ModelAndView("redirect:/users/withdraw?access_token="+access_token.getAccessToken());  
     }
+    
+    @GetMapping("/log-out")
+  		public String logOutUser(@RequestParam("access_token") String token) {
+  			
+  			try{
+  				OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+  				if (oAuth2AccessToken != null) {
+  					OAuth2RefreshToken oAuth2RefreshToken = oAuth2AccessToken.getRefreshToken();
+  					tokenStore.removeAccessToken(oAuth2AccessToken);
+  					if (oAuth2RefreshToken != null) {
+  						tokenStore.removeRefreshToken(oAuth2RefreshToken);
+  						 return "login";  
+  					}
+  				}
+
+  			} catch (Exception e) {
+  				System.out.println("Error while logging out because: " + e.getMessage());
+  				 return "Invalid Access Token";  
+  				//return new ResponseEntity<>("Invalid Access Token",HttpStatus.OK);
+  			}
+  			 return "Logout Failed";  
+  			     //return new ResponseEntity<>("Logout Failed",HttpStatus.OK);
+
+  		}
     
 
     
