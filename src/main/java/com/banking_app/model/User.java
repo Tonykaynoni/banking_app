@@ -67,6 +67,29 @@ public class User {
 	private boolean nonLocked = true;
     
 	
+	public User() {
+		super();
+	}
+
+	public User(@NotEmpty(message = "Username may not be empty") @NotNull String username,
+			@NotNull @NotEmpty(message = "Password is required") String password,
+			@NotNull @NotEmpty(message = "Fullname may not be empty") String fullname, @NotNull @NotEmpty String dob,
+			@NotNull @NotEmpty String account_type, @NotNull @NotEmpty String address, int account_balance,
+			String profile_picture, Set<Role> roles, boolean isEnabled, boolean nonLocked) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.dob = dob;
+		this.account_type = account_type;
+		this.address = address;
+		this.account_balance = account_balance;
+		this.profile_picture = profile_picture;
+		this.roles = roles;
+		this.isEnabled = isEnabled;
+		this.nonLocked = nonLocked;
+	}
+
 	public String getProfile_picture() {
 		return profile_picture;
 	}
